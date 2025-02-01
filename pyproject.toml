@@ -1,0 +1,15 @@
+[project]
+name = "wehackforgood"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "folium>=0.19.4",
+    "geodatasets>=2024.8.0",
+    "geopandas>=1.0.1",
+    "geopy>=2.4.1",
+    "ipykernel>=6.29.5",
+    "mapclassify>=2.8.1",
+    "matplotlib>=3.10.0",
+]
