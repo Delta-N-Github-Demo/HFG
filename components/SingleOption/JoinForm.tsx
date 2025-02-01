@@ -1,16 +1,40 @@
 import { Input } from "../ui/input";
+import { useState } from "react";
+import PointsDialog from "./PointsDialog";
 
 interface JoinFormProps {
+  points: number;
   onSubmit: (e: React.FormEvent) => void;
   onBack: () => void;
 }
 
-export default function JoinForm({ onSubmit, onBack }: JoinFormProps) {
+export default function JoinForm({ onSubmit, onBack, points }: JoinFormProps) {
+  const [showPointsDialog, setShowPointsDialog] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowPointsDialog(true);
+  };
+  
+  if (showPointsDialog) {
+    return (
+      <PointsDialog
+        isOpen={showPointsDialog}
+        onClose={() => {setShowPointsDialog(false); onBack();}}
+        points={points}
+        onCheckPost={() => {
+          setShowPointsDialog(false);
+          onSubmit(new Event('submit') as React.FormEvent);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="mt-2 text-sm bg-[#F1EEE0] text-black p-4 border border-black rounded-lg shadow-lg">
       <h3 className="font-semibold text-xl mb-2">Submit your action to show the impact</h3>
       <p className="mb-2">Share with use what you have done and we will show what the impact is.</p>
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Select your image from device</label>
           <Input type="file" accept="image/*" className="bg-white" />

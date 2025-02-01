@@ -60,7 +60,7 @@ export default function Option({
       )}
       {extended &&
         (showJoinForm ? (
-          <JoinForm onSubmit={handleSubmitAction} onBack={() => setShowJoinForm(false)} />
+          <JoinForm onSubmit={handleSubmitAction} onBack={() => setShowJoinForm(false)} points={option.points} />
         ) : (
           <ExtendedOption
             long_description={option.long_description}
