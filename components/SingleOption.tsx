@@ -16,12 +16,6 @@ export interface SingleOptionProps {
   onBackButtonClick?: () => void;
 }
 
-const images: { [key: string]: string } = {
-  "hornbach.nl": "/logos/hornbach.png",
-  "imkershop.nl": "/logos/imkershop.png",
-  "vogelhuisjes.nl": "/logos/vogelhuisjes.png",
-};
-
 const icons = {
   Home: Trees,
   Flower,
@@ -31,6 +25,12 @@ const icons = {
   Droplet,
   Bug,
   Recycle,
+};
+
+const images: { [key: string]: string } = {
+  "hornbach.nl": "/logos/hornbach.png",
+  "imkershop.nl": "/logos/imkershop.png",
+  "vogelhuisjes.nl": "/logos/vogelhuisjes.png",
 };
 
 export default function SingleOption({

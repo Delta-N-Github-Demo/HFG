@@ -19,6 +19,7 @@ export default function Options({
       <h2 className="text-lg font-semibold text-green-800">Biodiversiteitsopties</h2>
       {OPTIONS_DATA.map((option) => 
         <SingleOption
+          key={option.title}
           option={option}
           setSelectedOption={setSelectedOption}
           onClickReadMore={() => onClickReadMoreOption(option.title)}
