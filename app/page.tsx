@@ -9,22 +9,15 @@ import { getCoordinates } from "@/app/data/getCoordinates"
 import { mockGeoJsonData } from "@/app/data/mockGeoJsonData"
 import { Trees, Flower, Leaf, Fish, TreesIcon, Droplet, Bug, Recycle } from "lucide-react"
 import { OPTIONS_DATA, calculatePoints, getPointColor } from "@/app/data/options_data"
+import Options from "@/components/Options"
+import SingleOption from "@/components/SingleOption"
 
 const CombinedMap = dynamic(() => import("@/components/CombinedMap"), {
   ssr: false,
   loading: () => <p>Kaart laden...</p>,
 })
 
-const icons = {
-  Home: Trees,
-  Flower,
-  Leaf,
-  Fish,
-  Tree: TreesIcon,
-  Droplet,
-  Bug,
-  Recycle,
-}
+
 
 export default function Home() {
   const [postcode, setPostcode] = useState("")
@@ -32,6 +25,7 @@ export default function Home() {
   const [isPostcodeEntered, setIsPostcodeEntered] = useState(false)
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null)
+  const [selectedSingleOption, setSelectedSingleOption] = useState<string | null>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const router = useRouter()
 
@@ -73,10 +67,10 @@ export default function Home() {
       <div className="absolute h-full left-1/2 -translate-x-1/2 z-10 flex flex-col justify-between pointer-events-none">
         {/* Top content */}
         <div className="pointer-events-auto">
-          <div className="bg-white/95 rounded-lg shadow-lg p-4 max-w-md space-y-2">
+          <div className="bg-[#F1EEE0]/95 rounded-lg shadow-lg p-4 m-2 max-w-md space-y-2">
             <div className="flex items-center gap-2 text-green-800">
               <Trees className="h-6 w-6" />
-              <h1 className="text-lg font-semibold">Bio Enhancer</h1>
+              <h1 className="text-lg font-semibold">Flourish</h1>
             </div>
             <p className="text-gray-700 text-sm">
               Samen kunnen wij de biodiversiteit verbeteren per gemeente. Bekijk wat jij kan en wilt doen om een
@@ -88,47 +82,27 @@ export default function Home() {
         <div className="">
 
           {/* Options */}
-          {selectedRegion !== null && (
-            <div className="pointer-events-auto w-full max-w-md mx-auto bg-white/95 rounded-lg shadow-lg p-4 space-y-4 overflow-y-auto max-h-[60vh]">
-              <h2 className="text-lg font-semibold text-green-800">Biodiversiteitsopties</h2>
-              {OPTIONS_DATA.map((option) => {
-                const regionData = mockGeoJsonData.features.find((feature) => feature.properties?.buurtnaam === selectedRegion)
-                const points = calculatePoints(regionData!.properties, option.impact_value, option.minimum_effort)
-                const Icon = icons[option.icon as keyof typeof icons] || TreesIcon
-                return (
-                  <div
-                    key={option.title}
-                    className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-pointer"
-                    onClick={() => setSelectedOption(option.title === selectedOption ? null : option.title)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Icon className="h-5 w-5" />
-                        <span className="font-medium">{option.title}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold">{points}pt</span>
-                        <div className={`w-3 h-3 rounded-full ${getPointColor(points)}`} />
-                      </div>
-                    </div>
-                    {selectedOption === option.title && (
-                      <div className="mt-2 text-sm bg-[#F1EEE0] text-black p-2">
-                        <p>{option.description}</p>
-                        <p className="mt-2 font-semibold">Impact: {option.impact}</p>
-                        <div className="flex justify-between gap-2 mt-2">
-                          <button className="bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors">
-                            Community
-                          </button>
-                          <button className="bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors">
-                            Join the cause
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
+          {selectedRegion !== null && selectedSingleOption === null && (
+            <Options
+              onClickReadMoreOption={setSelectedSingleOption}
+              setSelectedOption={setSelectedOption}
+              selectedOption={selectedOption}
+              selectedRegion={selectedRegion}
+            />
+          )}
+
+          {/* Single option */}
+          {selectedSingleOption !== null && (
+            OPTIONS_DATA.find(option => option.title === selectedSingleOption) && (
+              <SingleOption
+                option={OPTIONS_DATA.find(option => option.title === selectedSingleOption)!}
+                setSelectedOption={setSelectedOption}
+                onClickReadMore={() => setSelectedSingleOption(null)}
+                selectedOption={selectedOption}
+                selectedRegion={selectedRegion}
+                extended={true}
+              />
+            )
           )}
 
           {/* Bottom content */}
