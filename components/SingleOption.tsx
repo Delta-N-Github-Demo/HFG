@@ -1,5 +1,5 @@
 import { mockGeoJsonData } from "@/app/data/mockGeoJsonData"
-import { Trees, Flower, Leaf, Fish, TreesIcon, Droplet, Bug, Recycle, ExternalLink } from "lucide-react"
+import { Trees, Flower, Leaf, Fish, TreesIcon, Droplet, Bug, Recycle, ExternalLink, ArrowLeft } from "lucide-react"
 import { OPTIONS_DATA, calculatePoints, getPointColor } from "@/app/data/options_data"
 
 export interface SingleOptionProps {
@@ -9,6 +9,8 @@ export interface SingleOptionProps {
   selectedOption: string | null
   selectedRegion: string | null
   extended: boolean
+  backButton: boolean
+  onBackButtonClick?: () => void
 }
 
 const icons = {
@@ -28,7 +30,9 @@ export default function SingleOption({
   onClickReadMore,
   selectedOption,
   selectedRegion,
-  extended
+  extended,
+  backButton,
+  onBackButtonClick
 }: SingleOptionProps) {
   const regionData = mockGeoJsonData.features.find((feature) => feature.properties?.buurtnaam === selectedRegion)
   const points = calculatePoints(regionData!.properties, option)
@@ -41,6 +45,7 @@ export default function SingleOption({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
+          {backButton && <ArrowLeft className="h-5 w-5 mr-2" onClick={onBackButtonClick} />}
           <Icon className="h-5 w-5" />
           <span className="font-medium">{option.title}</span>
         </div>
