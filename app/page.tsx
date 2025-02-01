@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+import BiodiversityActions from "@/components/BiodiversityActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OPTIONS_DATA } from "@/app/data/options_data";
-import Options from "@/components/Options";
-import SingleOption from "@/components/SingleOption";
+import SingleOption from "@/components/Option";
 import { Trees } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getCoordinates } from "@/app/data/getCoordinates";
@@ -65,7 +65,6 @@ export default function Home() {
       {/* Content overlay */}
       <div className="absolute h-full w-full z-50 flex flex-col justify-center items-center pointer-events-none">
         <div className="h-full flex flex-col justify-between pointer-events-none max-w-[95%] md:max-w-[75%] lg:max-w-[55%]">
-
           {/* Top content */}
           <div className="pointer-events-auto">
             <div className="bg-[#F1EEE0]/95 rounded-lg shadow-lg p-4 m-2 max-w-md space-y-2">
@@ -82,7 +81,7 @@ export default function Home() {
           <div className="pointer-events-auto">
             {/* Options */}
             {selectedRegion !== null && selectedSingleOption === null && (
-              <Options
+              <BiodiversityActions
                 onClickReadMoreOption={setSelectedSingleOption}
                 setSelectedOption={setSelectedOption}
                 selectedOption={selectedOption}
