@@ -1,7 +1,7 @@
-import { Bug, Droplet, ExternalLink, Fish, Flower, Leaf, Recycle, Trees, TreesIcon } from "lucide-react";
+import { ArrowLeft, Bug, Droplet, ExternalLink, Fish, Flower, Leaf, Recycle, Trees, TreesIcon } from "lucide-react";
 import { OPTIONS_DATA, calculatePoints, getPointColor } from "@/app/data/options_data";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "./ui/input";
 import { mockGeoJsonData } from "@/app/data/mockGeoJsonData";
 import { useState } from "react";
 
@@ -12,7 +12,15 @@ export interface SingleOptionProps {
   selectedOption: string | null;
   selectedRegion: string | null;
   extended: boolean;
+  backButton: boolean;
+  onBackButtonClick?: () => void;
 }
+
+const images: { [key: string]: string } = {
+  "hornbach.nl": "/logos/hornbach.png",
+  "imkershop.nl": "/logos/imkershop.png",
+  "vogelhuisjes.nl": "/logos/vogelhuisjes.png",
+};
 
 const icons = {
   Home: Trees,
@@ -32,6 +40,8 @@ export default function SingleOption({
   selectedOption,
   selectedRegion,
   extended,
+  backButton,
+  onBackButtonClick,
 }: SingleOptionProps) {
   const [showJoinForm, setShowJoinForm] = useState(false);
   const regionData = mockGeoJsonData.features.find((feature) => feature.properties?.buurtnaam === selectedRegion);
@@ -48,11 +58,12 @@ export default function SingleOption({
     <>
       <div
         key={option.title}
-        className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-pointer"
+        className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-auto"
         onClick={() => !extended && setSelectedOption(option.title === selectedOption ? null : option.title)}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
+            {backButton && <ArrowLeft className="h-5 w-5 mr-2 cursor-pointer" onClick={onBackButtonClick} />}
             <Icon className="h-5 w-5" />
             <span className="font-medium">{option.title}</span>
           </div>
@@ -84,17 +95,25 @@ export default function SingleOption({
                     <div className="flex flex-col gap-2">
                       {option.buy_links.map((link, index) => {
                         const domain = new URL(link).hostname.replace("www.", "");
+                        const logo = images[domain];
                         return (
-                          <a
-                            key={index}
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="z-50 cursor-pointer flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
-                          >
-                            <span className="text-sm">{domain}</span>
-                            <ExternalLink className="h-4 w-4" />
-                          </a>
+                          <div key={index} className="flex justify-between flex-row">
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="min-w-[66%] cursor-pointer flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
+                            >
+                              {logo && <img src={logo} alt={domain} className="h-6 pr-4" />}
+                              <span className="text-sm">{domain}</span>
+                              <ExternalLink className="h-4 w-4" />
+                            </a>
+                            <div className="flex items-center justify-center">
+                              <span className="text-sm">{index === 0 && "5,- korting met 1000 punten!"}</span>
+                              <span className="text-sm">{index === 1 && "15% korting met 3000 punten!"}</span>
+                              <span className="text-sm">{index === 2 && "10% korting met 2000 punten!"}</span>
+                            </div>
+                          </div>
                         );
                       })}
                     </div>

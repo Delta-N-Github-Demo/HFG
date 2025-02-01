@@ -25,6 +25,7 @@ export default function Options({
           selectedOption={selectedOption}
           selectedRegion={selectedRegion}
           extended={false}
+          backButton={false}
         />
       )}
     </div>
