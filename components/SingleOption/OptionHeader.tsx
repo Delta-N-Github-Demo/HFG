@@ -1,14 +1,12 @@
 import { Bug, Droplet, Fish, Flower, Leaf, Recycle, Trees, TreesIcon } from "lucide-react";
-import { calculatePoints, getPointColor, OPTIONS_DATA } from "@/app/data/options_data";
+import { getPointColor } from "@/app/data/options_data";
 
 import { cn } from "@/lib/utils";
-import { mockGeoJsonData } from "@/app/data/mockGeoJsonData";
+import { OptionWithPoints } from "../BiodiversityActions";
 
 interface OptionHeaderProps {
-  option: (typeof OPTIONS_DATA)[number];
-  selectedRegion: string | null;
+  option: OptionWithPoints;
   selectedOption: string | null;
-  onClickReadMore: () => void;
   setSelectedOption: (option: string | null) => void;
   className?: string;
 }
@@ -24,16 +22,7 @@ const icons = {
   Recycle,
 };
 
-export default function OptionHeader({
-  className,
-  option,
-  selectedRegion,
-  selectedOption,
-  onClickReadMore,
-  setSelectedOption,
-}: OptionHeaderProps) {
-  const regionData = mockGeoJsonData.features.find((feature) => feature.properties?.buurtnaam === selectedRegion);
-  const points = calculatePoints(regionData!.properties, option);
+export default function OptionHeader({ className, option, selectedOption, setSelectedOption }: OptionHeaderProps) {
   const Icon = icons[option.icon as keyof typeof icons] || TreesIcon;
 
   return (
@@ -47,8 +36,8 @@ export default function OptionHeader({
           <span className="font-medium">{option.title}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold">{points}pt</span>
-          <div className={`w-3 h-3 rounded-full ${getPointColor(points)}`} />
+          <span className="text-sm font-semibold">{option.points}pt</span>
+          <div className={`w-3 h-3 rounded-full ${getPointColor(option.points)}`} />
         </div>
       </div>
     </div>

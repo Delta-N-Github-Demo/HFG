@@ -6,13 +6,13 @@ import ExtendedOption from "./SingleOption/ExtendedOption";
 import JoinForm from "./SingleOption/JoinForm";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { OptionWithPoints } from "./BiodiversityActions";
 
 export interface OptionProps {
-  option: (typeof OPTIONS_DATA)[number];
+  option: OptionWithPoints;
   setSelectedOption: (option: string | null) => void;
   onClickReadMore: () => void;
   selectedOption: string | null;
-  selectedRegion: string | null;
   extended: boolean;
   backButton: boolean;
   onBackButtonClick?: () => void;
@@ -23,7 +23,6 @@ export default function Option({
   setSelectedOption,
   onClickReadMore,
   selectedOption,
-  selectedRegion,
   extended,
   backButton,
   onBackButtonClick,
@@ -45,14 +44,7 @@ export default function Option({
         })}
       >
         {backButton && <ArrowLeft className="ml-2 h-6 w-6" onClick={onBackButtonClick} />}
-        <OptionHeader
-          className="flex-1"
-          option={option}
-          selectedRegion={selectedRegion}
-          selectedOption={selectedOption}
-          onClickReadMore={onClickReadMore}
-          setSelectedOption={setSelectedOption}
-        />
+        <OptionHeader className="flex-1" option={option} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
       </div>
       {active && !extended && (
         <div className="text-sm bg-[#F1EEE0] text-black p-2 border border-black rounded space-y-4 mt-1">

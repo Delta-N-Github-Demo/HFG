@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import BiodiversityActions from "@/components/BiodiversityActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { OPTIONS_DATA } from "@/app/data/options_data";
+import { calculatePoints, OPTIONS_DATA } from "@/app/data/options_data";
 import SingleOption from "@/components/Option";
 import { Trees } from "lucide-react";
 import dynamic from "next/dynamic";
 import { getCoordinates } from "@/app/data/getCoordinates";
 import { mockGeoJsonData } from "@/app/data/mockGeoJsonData";
 import { useRouter } from "next/navigation";
+import Option from "@/components/Option";
 
 const CombinedMap = dynamic(() => import("@/components/CombinedMap"), {
   ssr: false,
@@ -91,12 +92,17 @@ export default function Home() {
 
             {/* Single option */}
             {selectedSingleOption !== null && OPTIONS_DATA.find((option) => option.title === selectedSingleOption) && (
-              <SingleOption
-                option={OPTIONS_DATA.find((option) => option.title === selectedSingleOption)!}
+              <Option
+                option={{
+                  ...OPTIONS_DATA.find((option) => option.title === selectedSingleOption)!,
+                  points: calculatePoints(
+                    mockGeoJsonData.features.find((feature) => feature.properties?.buurtnaam === selectedRegion)!.properties,
+                    OPTIONS_DATA.find((option) => option.title === selectedSingleOption)!
+                  ),
+                }}
                 setSelectedOption={setSelectedOption}
                 onClickReadMore={() => null}
                 selectedOption={selectedOption}
-                selectedRegion={selectedRegion}
                 extended={true}
                 backButton={true}
                 onBackButtonClick={() => setSelectedSingleOption(null)}
