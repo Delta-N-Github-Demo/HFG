@@ -24,6 +24,12 @@ const icons = {
   Recycle,
 }
 
+const images: { [key: string]: string } = {
+  "hornbach.nl": "/logos/hornbach.png",
+  "imkershop.nl": "/logos/imkershop.png",
+  "vogelhuisjes.nl": "/logos/vogelhuisjes.png",
+}
+
 export default function SingleOption({
   option,
   setSelectedOption,
@@ -40,12 +46,12 @@ export default function SingleOption({
   return (
     <div
       key={option.title}
-      className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-pointer"
+      className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-auto"
       onClick={() => !extended && setSelectedOption(option.title === selectedOption ? null : option.title)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {backButton && <ArrowLeft className="h-5 w-5 mr-2" onClick={onBackButtonClick} />}
+          {backButton && <ArrowLeft className="h-5 w-5 mr-2 cursor-pointer" onClick={onBackButtonClick} />}
           <Icon className="h-5 w-5" />
           <span className="font-medium">{option.title}</span>
         </div>
@@ -77,17 +83,28 @@ export default function SingleOption({
               <div className="flex flex-col gap-2">
                 {option.buy_links.map((link, index) => {
                   const domain = new URL(link).hostname.replace('www.', '')
+                  const logo = images[domain]
                   return (
-                    <a 
+                    <div
                       key={index}
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer" 
-                      className="z-50 cursor-pointer flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
+                      className="flex justify-between flex-row"
                     >
-                      <span className="text-sm">{domain}</span>
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                      <a 
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer" 
+                        className="min-w-[66%] cursor-pointer flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
+                      >
+                        {logo && <img src={logo} alt={domain} className="h-6 pr-4" />}
+                        <span className="text-sm">{domain}</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                      <div className="flex items-center justify-center">
+                        <span className="text-sm">{ index === 0 && "5,- korting met 1000 punten!" }</span>
+                        <span className="text-sm">{ index === 1 && "15% korting met 3000 punten!" }</span>
+                        <span className="text-sm">{ index === 2 && "10% korting met 2000 punten!" }</span>
+                      </div>
+                    </div>
                   )
                 })}
               </div>

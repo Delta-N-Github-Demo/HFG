@@ -257,8 +257,8 @@ export const OPTIONS_DATA = [
     icon: "Bee",
     buy_links: [
       "https://www.vivara.nl/bijenhotels",
-      "https://www.bijenhelpdesk.nl/shop",
-      "https://www.natuurpunt.be/bijenhotels"
+      "https://www.imkershop.nl/",
+      "https://www.hornbach.nl/"
     ]
   },
 ]

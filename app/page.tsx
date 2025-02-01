@@ -62,7 +62,7 @@ export default function Home() {
       </div>
 
       {/* Content overlay */}
-      <div className="absolute h-full w-full z-50 flex flex-col justify-center items-center">
+      <div className="absolute h-full w-full z-50 flex flex-col justify-center items-center pointer-events-none">
         <div className="h-full flex flex-col justify-between pointer-events-none max-w-[95%] md:max-w-[75%] lg:max-w-[55%]">
 
           {/* Top content */}
