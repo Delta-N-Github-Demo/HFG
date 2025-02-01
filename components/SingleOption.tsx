@@ -37,7 +37,7 @@ export default function SingleOption({
     <div
       key={option.title}
       className="bg-[#315551] text-white rounded-lg shadow p-1 cursor-pointer"
-      onClick={() => setSelectedOption(option.title === selectedOption ? null : option.title)}
+      onClick={() => !extended && setSelectedOption(option.title === selectedOption ? null : option.title)}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ export default function SingleOption({
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer" 
-                      className="flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
+                      className="z-50 cursor-pointer flex items-center gap-2 bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors"
                     >
                       <span className="text-sm">{domain}</span>
                       <ExternalLink className="h-4 w-4" />
@@ -88,8 +88,18 @@ export default function SingleOption({
               </div>
             </div>
           )}
+
+          <div className="flex justify-between m-2">
+            <button className="bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors">
+              See other people
+            </button>
+            <button className="bg-[#315551] text-white px-4 py-2 rounded hover:bg-[#264440] transition-colors">
+              Join the cause
+            </button>
+          </div>
         </div>
       )}
+      
     </div>
   )
 }

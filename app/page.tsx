@@ -17,8 +17,6 @@ const CombinedMap = dynamic(() => import("@/components/CombinedMap"), {
   loading: () => <p>Kaart laden...</p>,
 })
 
-
-
 export default function Home() {
   const [postcode, setPostcode] = useState("")
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null)
@@ -64,7 +62,7 @@ export default function Home() {
       </div>
 
       {/* Content overlay */}
-      <div className="absolute h-full left-1/2 -translate-x-1/2 z-10 flex flex-col justify-between pointer-events-none">
+      <div className="absolute h-full left-1/2 -translate-x-1/2 z-50 flex flex-col justify-between pointer-events-none">
         {/* Top content */}
         <div className="pointer-events-auto">
           <div className="bg-[#F1EEE0]/95 rounded-lg shadow-lg p-4 m-2 max-w-md space-y-2">
@@ -79,7 +77,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="">
+        <div className="pointer-events-auto">
 
           {/* Options */}
           {selectedRegion !== null && selectedSingleOption === null && (
